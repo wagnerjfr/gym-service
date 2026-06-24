@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package com.demo.gym;
+
+option java_multiple_files = true;
+option java_package = "com.demo.gym.controller";
+option java_outer_classname = "GymProto";
+
+import "common.proto";
+
+service GymService {
+  rpc CreateGym (CreateGymRequest) returns (GymResponse);
+  rpc GetGym (GetGymRequest) returns (GymResponse);
+  rpc ModifyGym (ModifyGymRequest) returns (GymResponse);
+  rpc DeleteGym (DeleteGymRequest) returns (DeleteResponse);
+
+  rpc RegisterMember (RegisterMemberRequest) returns (MembershipResponse);
+  rpc GetGymMembers (GetGymRequest) returns (MemberListResponse);
+  rpc GetMemberGyms (GetMemberRequest) returns (GymListResponse);
+}
+
+message CreateGymRequest {
+  string name = 1;
+  string tax_id = 2;
+  string email = 3;
+  string phone_number = 4;
+  string website_url = 5;
+  int32 capacity = 6;
+  AddressMessage address = 7;
+}
+
+message GetGymRequest {
+  int64 id = 1;
+}
+
+message ModifyGymRequest {
+  int64 id = 1;
+  string name = 2;
+  string email = 3;
+  string phone_number = 4;
+  string website_url = 5;
+  int32 capacity = 6;
+  AddressMessage address = 7;
+}
+
+message DeleteGymRequest {
+  int64 id = 1;
+}
+
+message GymResponse {
+  int64 id = 1;
+  string name = 2;
+  string tax_id = 3;
+  string email = 4;
+  string phone_number = 5;
+  string website_url = 6;
+  int32 capacity = 7;
+  AddressMessage address = 8;
+}
+
+message RegisterMemberRequest {
+  int64 gym_id = 1;
+  int64 member_id = 2;
+}
+
+message MembershipResponse {
+  int64 gym_id = 1;
+  int64 member_id = 2;
+  string status = 3;
+}
+
+message MemberListResponse {
+  repeated MemberResponse members = 1;
+}
+
+message GymListResponse {
+  repeated GymResponse gyms = 1;
+}

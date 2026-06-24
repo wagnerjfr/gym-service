@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package com.demo.gym;
+
+option java_multiple_files = true;
+option java_package = "com.demo.gym.controller";
+option java_outer_classname = "CommonProto";
+
+import "google/type/date.proto";
+
+message AddressMessage {
+  string country = 1;
+  string city = 2;
+  string street = 3;
+  string zip_code = 4;
+}
+
+message DeleteResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message MemberResponse {
+  int64 id = 1;
+  string name = 2;
+  string tax_id = 3;
+  string email = 4;
+  string phone_number = 5;
+  AddressMessage address = 6;
+  google.type.Date birth_date = 7;
+  Sex sex = 8;
+}
+
+message GetMemberRequest {
+  int64 id = 1;
+}
+
+enum Sex {
+  SEX_UNSPECIFIED = 0;
+  SEX_MALE = 1;
+  SEX_FEMALE = 2;
+  SEX_OTHER = 3;
+}

@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package com.demo.gym;
+
+option java_multiple_files = true;
+option java_package = "com.demo.gym.controller";
+option java_outer_classname = "MemberProto";
+
+import "google/type/date.proto";
+import "common.proto";
+
+service MemberService {
+  rpc CreateMember (CreateMemberRequest) returns (MemberResponse);
+  rpc GetMember (GetMemberRequest) returns (MemberResponse);
+  rpc ModifyMember (ModifyMemberRequest) returns (MemberResponse);
+  rpc DeleteMember (DeleteMemberRequest) returns (DeleteResponse);
+}
+
+message CreateMemberRequest {
+  string name = 1;
+  string tax_id = 2;
+  string email = 3;
+  string phone_number = 4;
+  AddressMessage address = 5;
+  google.type.Date birth_date = 6;
+  Sex sex = 7;
+}
+
+message ModifyMemberRequest {
+  int64 id = 1;
+  string name = 2;
+  string email = 3;
+  string phone_number = 4;
+  AddressMessage address = 5;
+  google.type.Date birth_date = 6;
+  Sex sex = 7;
+}
+
+message DeleteMemberRequest {
+  int64 id = 1;
+}

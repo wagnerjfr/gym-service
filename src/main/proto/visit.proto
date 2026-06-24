@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package com.demo.gym;
+
+option java_multiple_files = true;
+option java_package = "com.demo.gym.controller";
+option java_outer_classname = "VisitProto";
+
+import "google/protobuf/timestamp.proto";
+import "common.proto";
+
+service VisitService {
+  rpc CreateVisit (CreateVisitRequest) returns (VisitResponse);
+  rpc CancelVisit (CancelVisitRequest) returns (VisitResponse);
+  rpc CompleteVisit (CompleteVisitRequest) returns (VisitResponse);
+  rpc CheckOutVisit (CheckOutVisitRequest) returns (CheckOutVisitResponse);
+
+  rpc GetVisit (GetVisitRequest) returns (VisitResponse);
+  rpc GetMemberVisits (GetMemberVisitsRequest) returns (VisitListResponse);
+  rpc GetGymVisits (GetGymVisitsRequest) returns (VisitListResponse);
+
+  rpc GetVisitSummaryQuarter (GetVisitSummaryQuarterRequest) returns (GetVisitSummaryQuarterResponse);
+}
+
+enum VisitGrpcStatus {
+  UNSPECIFIED = 0;
+  CHECKED_IN = 1;
+  COMPLETED = 2;
+  CHECKED_OUT = 3;
+  CANCELLED = 4;
+}
+
+message CreateVisitRequest {
+  int64 gym_id = 1;
+  int64 member_id = 2;
+  google.protobuf.Timestamp check_in = 3;
+  string zone = 4;
+  string station_code = 5;
+  double daily_rate = 6;
+}
+
+message CancelVisitRequest {
+  int64 id = 1;
+  string reason = 2;
+}
+
+message CompleteVisitRequest {
+  int64 id = 1;
+  google.protobuf.Timestamp end_date = 2;
+}
+
+message CheckOutVisitRequest {
+  int64 id = 1;
+  google.protobuf.Timestamp check_out = 2;
+}
+
+message GetVisitRequest {
+  int64 id = 1;
+}
+
+message GetMemberVisitsRequest {
+  int64 member_id = 1;
+  VisitGrpcStatus status_filter = 2;
+}
+
+message GetGymVisitsRequest {
+  int64 gym_id = 1;
+  VisitGrpcStatus status_filter = 2;
+}
+
+message VisitResponse {
+  int64 id = 1;
+  int64 gym_id = 2;
+  int64 member_id = 3;
+  int64 bill_id = 4;
+  google.protobuf.Timestamp check_in = 5;
+  google.protobuf.Timestamp check_out = 6;
+  string zone = 7;
+  string station_code = 8;
+  string note = 9;
+  VisitGrpcStatus status = 10;
+  double daily_rate = 11;
+  google.protobuf.Timestamp created_at = 12;
+
+  string gym_name = 13;
+  string member_name = 14;
+}
+
+message CheckOutVisitResponse {
+  VisitResponse visit = 1;
+  int64 bill_id = 2;
+}
+
+message VisitListResponse {
+  repeated VisitResponse visits = 1;
+}
+
+message GetVisitSummaryQuarterRequest {
+  int64 member_id = 1;
+  int64 gym_id = 2;
+  int32 year = 3;
+  int32 quarter = 4;
+}
+
+message GetVisitSummaryQuarterResponse {
+  int64 member_id = 1;
+  int64 gym_id = 2;
+  int32 year = 3;
+  int32 quarter = 4;
+  int64 total_days = 5;
+  string currency = 6;
+  double billed_amount = 7;
+}
